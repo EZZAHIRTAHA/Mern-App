@@ -17,14 +17,7 @@ console.log(user);
 
   return (
     <div className='h-screen justify-center flex items-center'>
-      <h1 className='text-6xl text-center text-red-400 tracking-widest font-bold underline'>Hello
-        {user.map(u => (
-          <span key={u.id}>
-            {u.name}
-          </span>
-        ))}
-      </h1>
-
+      
     </div>
   )
 }
