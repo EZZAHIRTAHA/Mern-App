@@ -1,31 +1,76 @@
 const User = require('../models/UserModel');
 
+
+// Get all users
 const getUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.status(200).json(users);
+    res.json(users);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ error: 'Server error' });
   }
 };
- 
 
-
-const setUser = async (req, res) => {
+// Get a single user by ID
+const getUserById = async (req, res) => {
   try {
-      const user = req.body
-      const newUser = new User(user)
-      await newUser.save()
-      res.status(200).json(newUser)
-    } catch (error) {
-      console.error(error.message);
-      res.status(500).json({ error: 'Server error' });
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
     }
-  };
+    res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
 
+// Create a new user
+const createUser = async (req, res) => {
+  try {
+    const user = new User(req.body);
+    await user.save();
+    res.status(201).json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// Update an existing user
+const updateUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// Delete an existing user
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndRemove(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
 
 module.exports = {
   getUsers,
-  setUser
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser
 };
+
