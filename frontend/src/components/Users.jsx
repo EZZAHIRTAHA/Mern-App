@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+const myUrl = 'http://localhost:5000/api/users'
+
+
 
 function Users() {
+  
   const [users, setUsers] = useState([]);
-
   useEffect(() => {
-    axios.get('http://localhost:3000/users')
+    axios.get(myUrl)
       .then(response => {
         setUsers(response.data);
       })
@@ -14,10 +17,11 @@ function Users() {
       });
   }, []);
 
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">User List</h1>
-      <table className="table-auto w-full">
+      <table  className="table-auto border-collapse w-full ">
         <thead>
           <tr>
             <th className="px-4 py-2">Name</th>
@@ -32,7 +36,7 @@ function Users() {
               <td className="border px-4 py-2">{user.name}</td>
               <td className="border px-4 py-2">{user.age}</td>
               <td className="border px-4 py-2">{user.username}</td>
-              <td className="border px-4 py-2">
+              <td className="border px-4 py-2 flex justify-center items-center">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Edit</button>
                 <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
               </td>

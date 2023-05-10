@@ -6,7 +6,7 @@ const connectDB = require('./config/db');
 const userRouter = require('./routes/UserRouter');
 const cors = require('cors')
 connectDB();
-
+app.use(express.json())
 app.use(cors())
 app.get('/', (req, res) => {
   res.send('Hello!');
